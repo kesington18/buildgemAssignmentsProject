@@ -24,12 +24,14 @@ print(type(True))
 # int, float, complex, str, bool
 
 var = "eniola"
+vars = ""
 num = 0
 boolean = True
 floats = 3.14
 
 for x in var:
-    print(x.capitalize())
+    vars += x.capitalize()
 
+print(vars)
 print(bool(num))
 print(float(10))
