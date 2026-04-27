@@ -40,6 +40,8 @@ elif size.capitalize() == "L":
 else:
     print("Sorry, you answer is not within the options provided.")'''
 
+
+# angela yu code
 size = input("What size pizza do you want? S, M or L: ")
 pepperoni = input("Do you want pepperoni on your pizza? Y or N: ")
 extra_cheese = input("Do you want extra cheese? Y or N: ")
