@@ -1,55 +1,55 @@
 import random
 
-hangman = ['''
+hangman = [r'''
   +---+
   |   |
   O   |
  /|\  |
  / \  |
       |
-=========''','''
+=========''', r'''
   +---+
   |   |
   O   |
  /|\  |
  /    |
       |
-=========''','''
+=========''', r'''
   +---+
   |   |
   O   |
  /|\  |
       |
       |
-=========''','''
+=========''', r'''
   +---+
   |   |
   O   |
  /|   |
       |
       |
-=========''','''
+=========''', r'''
   +---+
   |   |
   O   |
   |   |
       |
       |
-=========''', '''
+=========''', r'''
   +---+
   |   |
   O   |
       |
       |
       |
-=========''','''
+=========''', r'''
   +---+
   |   |
       |
       |
       |
       |
-=========''',]
+=========''']
 
 word_list = ["apple", "banana", "cherry"]
 rnd = random.choice(word_list)
@@ -58,16 +58,25 @@ placeholder = ["_"] * len(rnd)
 print(rnd)
 print("".join(placeholder))
 user_lives = 6
-while "_" in placeholder:
+
+while "_" in placeholder and user_lives > 0:
     userInput = input("Guess a letter: ").lower()
     for i in range(0, len(rnd)):
         if userInput == rnd[i]:
             placeholder[i] = rnd[i]
             # print("right")
-        # else:
+    if userInput not in rnd:
+            user_lives -= 1
+            print(f"Letter '{userInput}' is not in the word.")
             # print("wrong")
+
+    print(hangman[user_lives])
     print("".join(placeholder))
-print("You win")
+
+if "_" not in placeholder:
+    print("You win!")
+else:
+    print("You lose!")
 
 '''another Solution by angela yu'''
 '''game_over = False
