@@ -1,5 +1,7 @@
 import random
 
+words = ['ant', 'baboon', 'badger', 'bat', 'bear', 'beaver', 'camel', 'cat', 'clam', 'cobra', 'cougar', 'coyote', 'crow', 'deer', 'dog', 'donkey', 'duck', 'eagle', 'ferret', 'fox', 'frog', 'goat', 'goose', 'hawk', 'lion', 'lizard', 'llama', 'mole', 'monkey', 'moose', 'mouse', 'mule', 'newt', 'otter', 'owl', 'panda', 'parrot', 'pigeon', 'python', 'rabbit', 'ram', 'rat', 'raven', 'rhino', 'salmon', 'seal', 'shark', 'sheep', 'skunk', 'sloth', 'snake', 'spider', 'stork', 'swan', 'tiger', 'toad', 'trout', 'turkey', 'turtle', 'weasel', 'whale', 'wolf', 'wombat', 'zebra']
+
 hangman = [r'''
   +---+
   |   |
@@ -51,24 +53,40 @@ hangman = [r'''
       |
 =========''']
 
-word_list = ["apple", "banana", "cherry"]
-rnd = random.choice(word_list)
+rnd = random.choice(words)
 
 placeholder = ["_"] * len(rnd)
-print(rnd)
-print("".join(placeholder))
+# print(rnd)
 user_lives = 6
-
+print(r'''
+ _                                             
+| |                                            
+| |__   __ _ _ __   __ _ _ __ ___   __ _ _ __  
+| '_ \ / _` | '_ \ / _` | '_ ` _ \ / _` | '_ \ 
+| | | | (_| | | | | (_| | | | | | | (_| | | | |
+|_| |_|\__,_|_| |_|\__, |_| |_| |_|\__,_|_| |_|
+                    __/ |                      
+                   |___/                       
+''')
+print(f'Word to guess: {"".join(placeholder)}')
 while "_" in placeholder and user_lives > 0:
+
+    print(f"*******************************{user_lives}/6 LIVES LEFT************************************")
     userInput = input("Guess a letter: ").lower()
-    for i in range(0, len(rnd)):
-        if userInput == rnd[i]:
-            placeholder[i] = rnd[i]
-            # print("right")
-    if userInput not in rnd:
-            user_lives -= 1
-            print(f"Letter '{userInput}' is not in the word.")
-            # print("wrong")
+
+    if userInput in placeholder:
+        user_lives -= 1
+        print(f"You have guessed the letter '{userInput}'. You have {user_lives} LIVES LEFT")
+    elif userInput not in rnd:
+        user_lives -= 1
+        print(f"Letter '{userInput}' is not in the word.")
+        # print("wrong")
+    else:
+        for i in range(0, len(rnd)):
+            if userInput == rnd[i]:
+                placeholder[i] = rnd[i]
+                # print("right")
+
 
     print(hangman[user_lives])
     print("".join(placeholder))
@@ -76,7 +94,7 @@ while "_" in placeholder and user_lives > 0:
 if "_" not in placeholder:
     print("You win!")
 else:
-    print("You lose!")
+    print(f"You lose! The answer is {rnd}")
 
 '''another Solution by angela yu'''
 '''game_over = False
