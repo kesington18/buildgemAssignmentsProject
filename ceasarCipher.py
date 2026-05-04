@@ -4,7 +4,14 @@ direction = input("Type 'encode' to encrypt, type 'decode' to decrypt\n").lower(
 text = input("Type your message:\n").lower()
 shift = int(input("Type your shift number:\n"))
 
-def encrypt(text):
+def encrypt(txt, shft):
     res = ""
-    for letter in text:
-        if c in letters:
+    for letter in txt:
+        val = letters.index(letter) + shft
+        val %= len(letters)
+        res += letters[val]
+
+    print(f"Here is the encoded result: {res}")
+
+if direction == 'encode':
+    encrypt(text, shift)
