@@ -1,6 +1,6 @@
 bidders = {}
 
-def bidding(name, bids):
+'''def bidding(name, bids):
     bidders[name] = bids
     print("\n" * 100)
     # print(bidders)
@@ -22,4 +22,35 @@ while continueBidding:
                 maxValue = bids
                 maxName = name
 
-        print(f"The winner is {maxName} with a bidding price of ${maxValue}")
+        print(f"The winner is {maxName} with a bidding price of ${maxValue}")'''
+
+# Angela Yu Solution
+def bidding(bids):
+    '''winner = ""
+    highest = 0
+    for bidder in bids:
+        bidAmount = bids[bidder]
+        if bidAmount > highest:
+            highest = bidAmount
+            winner = bidder'''
+
+    winner = max(bids, key=bids.get)
+    result = bids[winner]
+
+    print(f"The winner is {winner} with a bidding price of ${result}")
+
+
+
+continueBidding = True
+while continueBidding:
+    nameOfUser = input("Enter your name?: ").lower()
+    biddingPrice = int(input("Enter your bidding price: $"))
+    bidders[nameOfUser] = biddingPrice
+    continueBiddingQuestion = input("Are there any other bidders? Type 'yes' or 'no'.").lower()
+    if continueBiddingQuestion == "no":
+        continueBidding = False
+        bidding(bidders)
+    elif continueBiddingQuestion == "yes":
+        print("\n" * 20)
+
+
