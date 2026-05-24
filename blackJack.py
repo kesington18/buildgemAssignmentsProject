@@ -6,6 +6,8 @@ while continueGaming:
     cards = [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
 
     userResult = 0
+    userBlackjack = False
+    comBlackjack = False
     comResult = 0
     comCard = []
     userCard = []
@@ -14,19 +16,38 @@ while continueGaming:
 
     if userInput.lower() == 'y':
 
-        # player starting cards
+        # player and dealer starting cards
         for i in range(2):
             userRndCard = random.choice(cards)
             userCard.append(userRndCard)
             userResult += userRndCard
+            comRndCard = random.choice(cards)
+            comCard.append(comRndCard)
+            comResult += comRndCard
 
-        # computer starting card
-        comRndCard = random.choice(cards)
-        comCard.append(comRndCard)
-        comResult += comRndCard
+        if  userResult == 21 and len(userCard) == 2:
+            userBlackjack = True
+        if comResult == 21 and len(comCard) == 2:
+            comBlackjack = True
 
-        print(f"Your cards: {userCard}, current score: {userResult}")
-        print(f"Computer's first card: {comRndCard}")
+        if userBlackjack and comBlackjack:
+            print(f"Your final hand: {userCard}, final score: {userResult}")
+            print(f"Computer's final hand: {comCard}, final score: {comResult}")
+            print("It's a draw 🙃")
+            continue
+        elif userBlackjack:
+            print(f"Your final hand: {userCard}, final score: {userResult}")
+            print(f"Computer's final hand: {comCard}, final score: {comResult}")
+            print("Win with a Blackjack 😎")
+            continue
+        elif comBlackjack:
+            print(f"Your final hand: {userCard}, final score: {userResult}")
+            print(f"Computer's final hand: {comCard}, final score: {comResult}")
+            print("Lose, opponent has Blackjack 😱")
+            continue
+        else:
+            print(f"Your cards: {userCard}, current score: {userResult}")
+            print(f"Computer's first card: {comCard[0]}")
 
         # player turn
         while userResult <= 21:
@@ -43,7 +64,7 @@ while continueGaming:
                     userCard.append(1)
 
                 print(f"Your cards: {userCard}, current score: {userResult}")
-                print(f"Computer's first card: {comRndCard}")
+                print(f"Computer's first card: {comCard[0]}")
 
                 # player bust check
                 if userResult > 21:
@@ -59,11 +80,11 @@ while continueGaming:
                     comCard.append(newComRndCard)
                     comResult += newComRndCard
 
-                # converting the 11 ace to a 1 ace whenever the result id greater than 21 and it includes an 11
-                if comResult > 21 and 11 in comCard:
-                    comCard.remove(11)
-                    comResult -= 10
-                    comCard.append(1)
+                    # converting the 11 ace to a 1 ace whenever the result id greater than 21 and it includes an 11
+                    if comResult > 21 and 11 in comCard:
+                        comCard.remove(11)
+                        comResult -= 10
+                        comCard.append(1)
 
                 print(f"Your final hand: {userCard}, final score: {userResult}")
                 print(f"Computer's final hand: {comCard}, final score: {comResult}")
@@ -79,6 +100,8 @@ while continueGaming:
                     print("It's a draw 🙃")
                 break
 
+            else:
+                print("Type 'y' or 'n'")
 
     elif userInput.lower() == 'n':
         continueGaming = False
