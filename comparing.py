@@ -38,7 +38,7 @@ def game_logic():
             print(f"You're right! Current score: {score}.")
         else:
             print(f"Sorry, that's wrong. Final score: {score}")
-            break
+            continueGaming = False
 
 game_logic()
 # print(randomA, randomB)
