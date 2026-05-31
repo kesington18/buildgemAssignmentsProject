@@ -54,7 +54,7 @@ def coffee_make(quart: int, dim: int, nick: int, penn: int, coffee: str):
             print(f"Here is your {coffee} ☕️. Enjoy!")
 
 
-def coffee_question():
+def coffee_question() -> int:
     print("Please insert coins.")
     quarters = int(input("How many quarters? "))
     dimes = int(input("How many dimes? "))
