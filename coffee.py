@@ -34,29 +34,81 @@ def get_report():
     for key, value in resources.items():
         print(f"{key}: {value}")
 
-def expresso(quart: int, dim: int, nick: int, penn: int):
-    total =  0.25 * quart +  0.05 * dim + 0.05 * nick + 0.01 * penn
 
-    if total < MENU["espresso"]["cost"]:
+def coffee_make(quart: int, dim: int, nick: int, penn: int, coffee: str):
+    total = 0.25 * quart + 0.05 * dim + 0.05 * nick + 0.01 * penn
+
+    change = round(total - MENU[coffee]["cost"], 2)
+
+    if total < MENU[coffee]["cost"]:
         print("Sorry that's not enough money. Money refunded.")
     else:
-        resources["money"] = total
+        if "money" not in resources:
+            resources["money"] = MENU[coffee]["cost"]
+            print(f"Here is ${change} in change.")
+            print(f"Here is your {coffee} ☕️. Enjoy!")
 
+        else:
+            resources["money"] += MENU[coffee]["cost"]
+            print(f"Here is ${change} in change.")
+            print(f"Here is your {coffee} ☕️. Enjoy!")
+
+
+def coffee_question():
+    print("Please insert coins.")
+    quarters = int(input("How many quarters? "))
+    dimes = int(input("How many dimes? "))
+    nickles = int(input("How many nickles? "))
+    pennies = int(input("How many pennies? "))
+
+    return quarters, dimes, nickles, pennies
 
 def start_coffee():
-    user_input = input("What would you like? (espresso/latte/cappuccino): ").lower()
+    continueMaking = True
 
-    if user_input == "espresso":
+    while continueMaking:
+        user_input = input("What would you like? (espresso/latte/cappuccino): ").lower()
 
-    elif user_input == "latte":
+        # 1. Safely grab the ingredients dictionary (fallback to empty dict if drink doesn't exist)
+        ingredients = MENU.get(user_input.lower(), {}).get("ingredients", {})
 
-    elif user_input == "cappuccino":
+        # 2. Extract each ingredient. If it doesn't exist (like milk in espresso), default to 0!
+        water = ingredients.get("water", 0)
+        milk = ingredients.get("milk", 0)
+        coffee = ingredients.get("coffee", 0)
 
-    elif user_input == "report":
-        get_report()
+        if resources["water"] < water:
+            print("Sorry there is not enough water.")
+            continue
+        elif resources["milk"] < milk:
+            print("Sorry there is not enough milk.")
+            continue
+        elif resources["coffee"] < coffee:
+            print("Sorry there is not enough coffee.")
+            continue
+        else:
+            resources["water"] -= water
+            resources["milk"] -= milk
+            resources["coffee"] -= coffee
 
-    elif user_input == "off":
+        if user_input == "espresso":
+            quarters, dimes, nickles, pennies = coffee_question()
+            coffee_make(quarters, dimes, nickles, pennies, user_input)
 
-    else:
-        print("Sorry, Invalid input.")
-get_report()
+        elif user_input == "latte":
+            quarters, dimes, nickles, pennies = coffee_question()
+            coffee_make(quarters, dimes, nickles, pennies, user_input)
+
+        elif user_input == "cappuccino":
+            quarters, dimes, nickles, pennies = coffee_question()
+            coffee_make(quarters, dimes, nickles, pennies, user_input)
+
+        elif user_input == "report":
+            get_report()
+
+        elif user_input == "off":
+            continueMaking = False
+        else:
+            print("Sorry, Invalid input.")
+
+start_coffee()
