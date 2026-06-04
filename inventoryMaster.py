@@ -26,3 +26,14 @@ inventory = {
     120: {"name": "Marinara Pasta Sauce (24oz)", "category": "Pantry", "price": 3.29, "stock": 70}
 }
 
+li = []
+for key, value in inventory.items():
+    li.append(value["category"].lower())
+    print(key)
+# print(set(li))
+
+user_input = input("Please enter your choice of category: 'Produce', 'Dairy', 'Pantry', 'Meat', 'Bakery' ").strip().lower()
+if user_input in li:
+    for key, value in inventory.items():
+        if value["category"].lower() == user_input:
+            print(f"{value["name"]} -> ${value["price"]}")
