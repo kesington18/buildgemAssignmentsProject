@@ -1,3 +1,5 @@
+from prettytable import PrettyTable as pt
+
 # Master Supermarket Inventory
 inventory = {
     101: {"name": "Organic Bananas", "category": "Produce", "price": 0.89, "stock": 150},
@@ -26,14 +28,37 @@ inventory = {
     120: {"name": "Marinara Pasta Sauce (24oz)", "category": "Pantry", "price": 3.29, "stock": 70}
 }
 
-li = []
+li = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
 for key, value in inventory.items():
     li.append(value["category"].lower())
-    print(key)
+    # print(key)
 # print(set(li))
 
-user_input = input("Please enter your choice of category: 'Produce', 'Dairy', 'Pantry', 'Meat', 'Bakery' ").strip().lower()
-if user_input in li:
+def resource_check():
+    name = []
+    category = []
+    price = []
+
     for key, value in inventory.items():
-        if value["category"].lower() == user_input:
-            print(f"{value["name"]} -> ${value["price"]}")
+        name.append(value["name"].lower())
+        category.append(value["category"].lower())
+        price.append(value["price"])
+        # print(f"{value["name"]} -> ${value["price"]}")
+
+    table = pt()
+    table.add_column("Name", name)
+    table.add_column("Category", category)
+    table.add_column("Price", price)
+
+    return table
+
+
+
+print("Welcome to KENITAM STORES")
+print(f"this are our inventory table \n {resource_check()}")
+user_input = int(input("Please enter the number id of the item you want: "))
+if user_input in li:
+    print("yes it is available")
+
+
+# table.align = "l"
