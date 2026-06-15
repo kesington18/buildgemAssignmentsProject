@@ -69,14 +69,15 @@ def checkout():
 
     for key, value in inventory.items():
         if key in cart:
-            price_total += cart[key] * value["price"]
+            price = cart[key] * value["price"]
+            price_total += price
             total_item += cart[key]
 
             receipt_table.add_row([
                 value["name"],
                 cart[key],
                 f"${value['price']}",
-                f"${price_total:.2f}"
+                f"${price:.2f}"
             ])
 
     # Add a visual divider row to separate items from totals
