@@ -28,6 +28,8 @@ inventory = {
     20: {"name": "Marinara Pasta Sauce (24oz)", "category": "Pantry", "price": 3.29, "stock": 70}
 }
 
+
+cart = {}
 # li = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
 # for key, value in inventory.items():
 #     li.append(value["category"].lower())
@@ -35,33 +37,60 @@ inventory = {
 # print(set(li))
 
 def resource_check():
-    li = []
-    name = []
-    category = []
-    price = []
+    table = pt()
+    table.field_names = ["Item ID", "Name", "Category", "Price", "Stock"]
 
     for key, value in inventory.items():
-        li.append(key)
-        name.append(value["name"].lower())
-        category.append(value["category"].lower())
-        price.append(value["price"])
-        # print(f"{value["name"]} -> ${value["price"]}")
-
-    table = pt()
-    table.add_column("item_id",li)
-    table.add_column("Name", name)
-    table.add_column("Category", category)
-    table.add_column("Price", price)
+        table.add_row([key, value["name"], value["category"], f"${value['price']}", value["stock"]])
 
     return table
 
+def add_to_cart(item_id, amount):
+    if item_id in inventory:
+        user_item = inventory[item_id]
+
+        if amount > inventory[item_id]["stock"]:
+            print(f"Sorry, we only have {item['stock']} left in stock.")
+        else:
+            user_item["stock"] -= amount
+            if item_id in cart:
+                cart[item_id] += amount
+            else:
+                cart[item_id] = amount
+
+        print(f"\n✅ Added {amount}x {user_item['name']} to your cart!")
+    else:
+        print("Sorry, that item is not in the inventory.")
 
 
 print("Welcome to KENITAM STORES")
 print(f"this are our inventory table \n {resource_check()}")
-user_input = int(input("Please enter the number id of the item you want: "))
-if user_input in li:
-    print("yes it is available")
+
+continueShopping = True
+
+while continueShopping:
+    user_input = input("\nEnter the ID of the item you want (or type 'checkout' to finish): ").strip().lower()
+    if user_input == "checkout":
+        continueShopping = False
+    elif not user_input.isdigit():
+        print("Please enter a valid numeric ID.")
+    else:
+        userId = int(user_input)
+        user_amount = int(input("Please enter the amount of item you want: "))
+        try:
+            if user_amount <= 0 or not user_amount:
+                print("Sorry, Quantity must be greater than 0.")
+                continue
+        except ValueError:
+            print("Please enter a valid numeric ID.")
+            continue
+
+        add_to_cart(userId, user_amount)
+
+
+
+    add_to_cart(user_input, user_amount)
+
 
 
 # table.align = "l"
