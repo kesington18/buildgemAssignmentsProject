@@ -30,11 +30,6 @@ inventory = {
 
 
 cart = {}
-# li = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
-# for key, value in inventory.items():
-#     li.append(value["category"].lower())
-    # print(key)
-# print(set(li))
 
 def resource_check():
     table = pt()
@@ -50,7 +45,8 @@ def add_to_cart(item_id, amount):
         user_item = inventory[item_id]
 
         if amount > inventory[item_id]["stock"]:
-            print(f"Sorry, we only have {item['stock']} left in stock.")
+            print(f"Sorry, we only have {user_item['stock']} left in stock.")
+            return
         else:
             user_item["stock"] -= amount
             if item_id in cart:
@@ -63,6 +59,38 @@ def add_to_cart(item_id, amount):
         print("Sorry, that item is not in the inventory.")
 
 
+def checkout():
+    print("\n--- YOUR FINAL RECEIPT ---")
+    receipt_table = pt()
+    receipt_table.field_names = ["Item", "Qty", "Unit Price", "Total"]
+
+    price_total = 0
+    total_item = 0.0
+
+    for key, value in inventory.items():
+        if key in cart:
+            price_total += cart[key] * value["price"]
+            total_item += cart[key]
+
+            receipt_table.add_row([
+                value["name"],
+                cart[key],
+                f"${value['price']}",
+                f"${price_total:.2f}"
+            ])
+
+    # Add a visual divider row to separate items from totals
+    receipt_table.add_row(["-" * 20, "-" * 5, "-" * 10, "-" * 10])
+
+    # Add the final summary rows at the very bottom
+    receipt_table.add_row(["TOTAL", total_item, "", f"${price_total:.2f}"])
+    # receipt_table.add_row(["GRAND TOTAL PRICE", "", "", ])
+
+    print(receipt_table)
+    # print(f"Grand Total: ${total_item:.2f}")
+    print("Thank you for shopping at KENITAM STORES!")
+
+
 print("Welcome to KENITAM STORES")
 print(f"this are our inventory table \n {resource_check()}")
 
@@ -71,13 +99,17 @@ continueShopping = True
 while continueShopping:
     user_input = input("\nEnter the ID of the item you want (or type 'checkout' to finish): ").strip().lower()
     if user_input == "checkout":
+        checkout()
         continueShopping = False
+    elif user_input == "resource":
+        print(resource_check())
     elif not user_input.isdigit():
         print("Please enter a valid numeric ID.")
     else:
         userId = int(user_input)
-        user_amount = int(input("Please enter the amount of item you want: "))
+
         try:
+            user_amount = int(input("Please enter the amount of item you want: "))
             if user_amount <= 0 or not user_amount:
                 print("Sorry, Quantity must be greater than 0.")
                 continue
@@ -86,11 +118,6 @@ while continueShopping:
             continue
 
         add_to_cart(userId, user_amount)
-
-
-
-    add_to_cart(user_input, user_amount)
-
 
 
 # table.align = "l"
