@@ -82,13 +82,10 @@ def checkout():
 
     # Add a visual divider row to separate items from totals
     receipt_table.add_row(["-" * 20, "-" * 5, "-" * 10, "-" * 10])
-
     # Add the final summary rows at the very bottom
     receipt_table.add_row(["TOTAL", total_item, "", f"${price_total:.2f}"])
     # receipt_table.add_row(["GRAND TOTAL PRICE", "", "", ])
-
     print(receipt_table)
-    # print(f"Grand Total: ${total_item:.2f}")
     print("Thank you for shopping at KENITAM STORES!")
 
 
